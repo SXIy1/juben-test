@@ -1,0 +1,1312 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>你的人生剧本类型</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📜</text></svg>">
+<link rel="stylesheet" href="https://miaoda.feishu.cn/fonts/css2?family=Noto+Serif+SC:wght@400;600;700;900&family=Noto+Sans+SC:wght@300;400;500;700&display=swap">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --bg-deep: #0f172a;
+    --bg-card: #1e293b;
+    --bg-card-light: #334155;
+    --gold: #d4a853;
+    --gold-light: #e8c97a;
+    --text-primary: #f1f5f9;
+    --text-secondary: #94a3b8;
+    --text-muted: #64748b;
+    --border: #334155;
+    --accent: #d4a853;
+  }
+
+  body {
+    font-family: 'Noto Sans SC', sans-serif;
+    background: var(--bg-deep);
+    color: var(--text-primary);
+    min-height: 100vh;
+    line-height: 1.6;
+  }
+
+  .serif { font-family: 'Noto Serif SC', serif; }
+
+  /* 背景装饰 */
+  body::before {
+    content: '';
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background:
+      radial-gradient(ellipse at 20% 20%, rgba(212, 168, 83, 0.08) 0%, transparent 50%),
+      radial-gradient(ellipse at 80% 80%, rgba(212, 168, 83, 0.05) 0%, transparent 50%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .container {
+    max-width: 480px;
+    margin: 0 auto;
+    padding: 20px;
+    position: relative;
+    z-index: 1;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* ===== 视图切换 ===== */
+  .view { display: none; flex: 1; flex-direction: column; }
+  .view.active { display: flex; }
+
+  /* ===== 首页 ===== */
+  .hero-icon {
+    width: 80px; height: 80px;
+    margin: 60px auto 30px;
+    background: linear-gradient(135deg, var(--gold) 0%, var(--gold-light) 100%);
+    border-radius: 20px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 40px;
+    box-shadow: 0 10px 40px rgba(212, 168, 83, 0.3);
+  }
+
+  .hero-title {
+    font-family: 'Noto Serif SC', serif;
+    font-size: 32px;
+    font-weight: 900;
+    text-align: center;
+    margin-bottom: 12px;
+    letter-spacing: 2px;
+  }
+
+  .hero-subtitle {
+    text-align: center;
+    color: var(--gold);
+    font-size: 13px;
+    letter-spacing: 4px;
+    margin-bottom: 30px;
+    text-transform: uppercase;
+  }
+
+  .hero-desc {
+    text-align: center;
+    color: var(--text-secondary);
+    font-size: 15px;
+    line-height: 1.8;
+    margin-bottom: 40px;
+    padding: 0 20px;
+  }
+
+  .feature-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-bottom: 40px;
+  }
+
+  .feature-card {
+    background: var(--bg-card);
+    border-radius: 12px;
+    padding: 18px 16px;
+    text-align: center;
+    border: 1px solid var(--border);
+  }
+
+  .feature-card .label {
+    font-size: 15px;
+    font-weight: 600;
+    margin-bottom: 4px;
+    color: var(--gold-light);
+  }
+
+  .feature-card .sub {
+    font-size: 12px;
+    color: var(--text-muted);
+  }
+
+  .notice-box {
+    background: var(--bg-card);
+    border-left: 3px solid var(--gold);
+    border-radius: 0 12px 12px 0;
+    padding: 16px 20px;
+    margin-bottom: 30px;
+  }
+
+  .notice-box .title {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--gold-light);
+    margin-bottom: 6px;
+  }
+
+  .notice-box .text {
+    font-size: 13px;
+    color: var(--text-secondary);
+    line-height: 1.7;
+  }
+
+  .btn-primary {
+    background: linear-gradient(135deg, var(--gold) 0%, var(--gold-light) 100%);
+    color: var(--bg-deep);
+    border: none;
+    border-radius: 14px;
+    padding: 18px;
+    font-size: 16px;
+    font-weight: 700;
+    cursor: pointer;
+    width: 100%;
+    font-family: 'Noto Sans SC', sans-serif;
+    transition: transform 0.2s, box-shadow 0.2s;
+    margin-bottom: 12px;
+  }
+
+  .btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(212, 168, 83, 0.4);
+  }
+
+  .btn-secondary {
+    background: transparent;
+    color: var(--text-secondary);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 16px;
+    font-size: 14px;
+    cursor: pointer;
+    width: 100%;
+    font-family: 'Noto Sans SC', sans-serif;
+    transition: all 0.2s;
+  }
+
+  .btn-secondary:hover {
+    border-color: var(--gold);
+    color: var(--gold-light);
+  }
+
+  /* ===== 答题页 ===== */
+  .progress-header {
+    padding: 20px 0;
+  }
+
+  .progress-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+    font-size: 13px;
+    color: var(--text-secondary);
+  }
+
+  .progress-top .topic {
+    color: var(--gold);
+    font-weight: 500;
+  }
+
+  .progress-bar-bg {
+    height: 6px;
+    background: var(--bg-card);
+    border-radius: 3px;
+    overflow: hidden;
+  }
+
+  .progress-bar-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--gold) 0%, var(--gold-light) 100%);
+    border-radius: 3px;
+    transition: width 0.4s ease;
+  }
+
+  .question-card {
+    background: var(--bg-card);
+    border-radius: 20px;
+    padding: 32px 24px;
+    margin-top: 20px;
+    border: 1px solid var(--border);
+    flex: 1;
+  }
+
+  .question-topic {
+    font-size: 13px;
+    color: var(--gold);
+    margin-bottom: 12px;
+    font-weight: 500;
+  }
+
+  .question-text {
+    font-family: 'Noto Serif SC', serif;
+    font-size: 22px;
+    font-weight: 700;
+    line-height: 1.5;
+    margin-bottom: 28px;
+  }
+
+  .option-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .option-btn {
+    background: var(--bg-card-light);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 18px 20px;
+    text-align: left;
+    cursor: pointer;
+    transition: all 0.2s;
+    color: var(--text-primary);
+    font-size: 15px;
+    line-height: 1.5;
+    font-family: 'Noto Sans SC', sans-serif;
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+  }
+
+  .option-btn:hover {
+    border-color: var(--gold);
+    background: rgba(212, 168, 83, 0.1);
+  }
+
+  .option-btn.selected {
+    border-color: var(--gold);
+    background: rgba(212, 168, 83, 0.15);
+  }
+
+  .option-letter {
+    width: 28px; height: 28px;
+    border-radius: 50%;
+    background: var(--bg-deep);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text-secondary);
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+
+  .option-btn.selected .option-letter {
+    background: var(--gold);
+    color: var(--bg-deep);
+  }
+
+  .nav-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 20px;
+    padding: 0 4px;
+  }
+
+  .nav-hint {
+    font-size: 12px;
+    color: var(--text-muted);
+    text-align: center;
+  }
+
+  .nav-btn {
+    background: transparent;
+    border: 1px solid var(--border);
+    color: var(--text-secondary);
+    border-radius: 10px;
+    padding: 10px 20px;
+    font-size: 13px;
+    cursor: pointer;
+    font-family: 'Noto Sans SC', sans-serif;
+  }
+
+  .nav-btn:disabled {
+    opacity: 0.3;
+    cursor: not-allowed;
+  }
+
+  /* ===== 结果页 ===== */
+  .result-hero {
+    text-align: center;
+    padding: 40px 0 30px;
+  }
+
+  .result-label {
+    font-size: 13px;
+    color: var(--text-secondary);
+    letter-spacing: 2px;
+    margin-bottom: 16px;
+  }
+
+  .result-icon {
+    width: 70px; height: 70px;
+    margin: 0 auto 20px;
+    background: linear-gradient(135deg, var(--gold) 0%, var(--gold-light) 100%);
+    border-radius: 18px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 32px;
+  }
+
+  .result-percent {
+    font-family: 'Noto Serif SC', serif;
+    font-size: 48px;
+    font-weight: 900;
+    color: var(--gold);
+    line-height: 1;
+    margin-bottom: 8px;
+  }
+
+  .result-name {
+    font-family: 'Noto Serif SC', serif;
+    font-size: 36px;
+    font-weight: 900;
+    margin-bottom: 10px;
+    letter-spacing: 2px;
+  }
+
+  .result-tagline {
+    font-size: 14px;
+    color: var(--text-secondary);
+    margin-bottom: 20px;
+  }
+
+  .result-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    justify-content: center;
+    margin-bottom: 20px;
+  }
+
+  .result-tag {
+    background: rgba(212, 168, 83, 0.15);
+    color: var(--gold-light);
+    padding: 6px 14px;
+    border-radius: 20px;
+    font-size: 12px;
+    border: 1px solid rgba(212, 168, 83, 0.3);
+  }
+
+  .result-disclaimer {
+    font-size: 11px;
+    color: var(--text-muted);
+  }
+
+  .quote-box {
+    background: var(--bg-card);
+    border-radius: 16px;
+    padding: 24px;
+    margin: 24px 0;
+    border-left: 3px solid var(--gold);
+  }
+
+  .quote-label {
+    font-size: 13px;
+    color: var(--gold);
+    margin-bottom: 10px;
+    font-weight: 500;
+  }
+
+  .quote-text {
+    font-family: 'Noto Serif SC', serif;
+    font-size: 18px;
+    font-style: italic;
+    line-height: 1.7;
+  }
+
+  .section-card {
+    background: var(--bg-card);
+    border-radius: 16px;
+    padding: 24px;
+    margin-bottom: 16px;
+    border: 1px solid var(--border);
+  }
+
+  .section-title {
+    font-family: 'Noto Serif SC', serif;
+    font-size: 17px;
+    font-weight: 700;
+    margin-bottom: 16px;
+  }
+
+  .section-desc {
+    font-size: 14px;
+    color: var(--text-secondary);
+    line-height: 1.8;
+  }
+
+  .dim-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 14px;
+  }
+
+  .dim-name {
+    width: 40px;
+    font-size: 13px;
+    color: var(--text-secondary);
+    flex-shrink: 0;
+  }
+
+  .dim-bar-bg {
+    flex: 1;
+    height: 8px;
+    background: var(--bg-card-light);
+    border-radius: 4px;
+    overflow: hidden;
+  }
+
+  .dim-bar-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--gold) 0%, var(--gold-light) 100%);
+    border-radius: 4px;
+    transition: width 0.8s ease;
+  }
+
+  .dim-value {
+    width: 50px;
+    font-size: 12px;
+    color: var(--text-muted);
+    text-align: right;
+    flex-shrink: 0;
+  }
+
+  .highlight-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  .highlight-item {
+    background: var(--bg-card-light);
+    border-radius: 12px;
+    padding: 16px;
+  }
+
+  .highlight-item .topic {
+    font-size: 13px;
+    color: var(--gold-light);
+    margin-bottom: 6px;
+    font-weight: 500;
+  }
+
+  .highlight-item .text {
+    font-size: 13px;
+    color: var(--text-secondary);
+    line-height: 1.7;
+  }
+
+  .action-row {
+    display: flex;
+    gap: 12px;
+    margin-top: 24px;
+  }
+
+  .action-row .btn-primary,
+  .action-row .btn-secondary {
+    margin-bottom: 0;
+  }
+
+  .footer-note {
+    text-align: center;
+    font-size: 11px;
+    color: var(--text-muted);
+    padding: 30px 0;
+    line-height: 1.6;
+  }
+
+  /* ===== 剧本列表 ===== */
+  .script-item {
+    background: var(--bg-card);
+    border-radius: 14px;
+    padding: 16px 18px;
+    border: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+
+  .script-item .icon {
+    width: 44px; height: 44px;
+    background: rgba(212, 168, 83, 0.15);
+    border-radius: 12px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 22px;
+    flex-shrink: 0;
+  }
+
+  .script-item .info {
+    flex: 1;
+  }
+
+  .script-item .name {
+    font-size: 15px;
+    font-weight: 600;
+    margin-bottom: 3px;
+  }
+
+  .script-item .tagline {
+    font-size: 12px;
+    color: var(--text-muted);
+  }
+
+  /* 隐藏平台水印 */
+  [data-custom-element="doubao-watermark"] {
+    opacity: 0 !important;
+    visibility: hidden !important;
+    transform: translateX(-9999px) !important;
+    pointer-events: none !important;
+  }
+
+  /* 动画 */
+  @keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .view.active > * {
+    animation: fadeInUp 0.5s ease forwards;
+  }
+
+  .view.active > *:nth-child(2) { animation-delay: 0.1s; }
+  .view.active > *:nth-child(3) { animation-delay: 0.2s; }
+  .view.active > *:nth-child(4) { animation-delay: 0.3s; }
+  .view.active > *:nth-child(5) { animation-delay: 0.4s; }
+</style>
+</head>
+<body>
+
+<div class="container">
+
+  <!-- ===== 解锁视图 ===== -->
+  <div class="view active" id="view-unlock">
+    <div class="hero-icon">🔐</div>
+    <h1 class="hero-title serif">解锁你的剧本</h1>
+    <p class="hero-subtitle">PRIVATE ARCHIVE</p>
+    <p class="hero-desc">
+      此档案为付费内容，<br>
+      请输入访问密码开启。
+    </p>
+    <div style="margin: 30px 0;">
+      <input type="tel" id="accessInput" placeholder="请输入密码" 
+        style="width:100%; padding:18px 20px; background:var(--bg-card); border:1px solid var(--border); border-radius:14px; color:var(--text-primary); font-size:18px; text-align:center; letter-spacing:8px; outline:none; font-family:'Noto Sans SC',sans-serif;"
+        onfocus="this.style.borderColor='var(--gold)'" 
+        onblur="this.style.borderColor='var(--border)'">
+    </div>
+    <button class="btn-primary" onclick="unlock()">立即解锁</button>
+    <p style="text-align:center; font-size:12px; color:var(--text-muted); margin-top:20px;">
+      未获取密码？请联系发布者
+    </p>
+  </div>
+
+  <!-- ===== 首页视图 ===== -->
+  <div class="view" id="view-home">
+    <div class="hero-icon">📜</div>
+    <h1 class="hero-title serif">你的人生剧本</h1>
+    <p class="hero-subtitle">LIFE SCRIPT ATLAS</p>
+    <p class="hero-desc">
+      每个人都在写自己的故事。<br>
+      但你有没有想过，<br>
+      你的人生剧本，究竟是哪一种？
+    </p>
+
+    <div class="feature-grid">
+      <div class="feature-card">
+        <div class="label">8种剧本</div>
+        <div class="sub">不同人生主旋律</div>
+      </div>
+      <div class="feature-card">
+        <div class="label">18道情境题</div>
+        <div class="sub">真实反应见真章</div>
+      </div>
+      <div class="feature-card">
+        <div class="label">多维分析</div>
+        <div class="sub">看懂你的决策模式</div>
+      </div>
+      <div class="feature-card">
+        <div class="label">即时生成</div>
+        <div class="sub">你的专属剧本档案</div>
+      </div>
+    </div>
+
+    <div class="notice-box">
+      <div class="title">测试说明</div>
+      <div class="text">
+        没有标准答案，选择最接近真实自己的反应。<br>
+        结果仅作趣味参考，帮你看见自己的决策模式。
+      </div>
+    </div>
+
+    <button class="btn-primary" onclick="startTest()">翻开你的剧本</button>
+    <button class="btn-secondary" onclick="showScripts()">先看看有哪些剧本</button>
+  </div>
+
+  <!-- ===== 剧本列表视图 ===== -->
+  <div class="view" id="view-scripts">
+    <div style="padding: 30px 0 20px;">
+      <h2 class="serif" style="font-size: 24px; font-weight: 700; text-align: center; margin-bottom: 8px;">八种人生剧本</h2>
+      <p style="text-align: center; color: var(--text-secondary); font-size: 13px;">做完测试，你会知道自己是哪一种</p>
+    </div>
+
+    <div id="scripts-list" style="display: flex; flex-direction: column; gap: 12px; flex: 1;"></div>
+
+    <button class="btn-secondary" style="margin-top: 20px;" onclick="showView('home')">返回</button>
+  </div>
+
+  <!-- ===== 答题视图 ===== -->
+  <div class="view" id="view-quiz">
+    <div class="progress-header">
+      <div class="progress-top">
+        <span class="topic" id="q-topic">主题</span>
+        <span><span id="q-num">1</span> / <span id="q-total">18</span> · <span id="q-percent">6%</span></span>
+      </div>
+      <div class="progress-bar-bg">
+        <div class="progress-bar-fill" id="q-progress" style="width: 6%"></div>
+      </div>
+    </div>
+
+    <div class="question-card">
+      <div class="question-topic" id="q-topic-label">主题</div>
+      <div class="question-text serif" id="q-text">题目内容</div>
+      <div class="option-list" id="q-options"></div>
+    </div>
+
+    <div class="nav-row">
+      <button class="nav-btn" id="btn-prev" onclick="prevQuestion()">上一题</button>
+      <span class="nav-hint" id="nav-hint">选择后自动进入下一题</span>
+      <button class="nav-btn" id="btn-next" onclick="nextQuestion()" disabled>下一题</button>
+    </div>
+  </div>
+
+  <!-- ===== 结果视图 ===== -->
+  <div class="view" id="view-result">
+    <div class="result-hero">
+      <div class="result-label">你的人生剧本</div>
+      <div class="result-icon" id="r-icon">📖</div>
+      <div class="result-percent" id="r-percent">87%</div>
+      <h2 class="result-name serif" id="r-name">逆风翻盘型</h2>
+      <p class="result-tagline" id="r-tagline">在低谷里长出翅膀的人</p>
+      <div class="result-tags" id="r-tags"></div>
+      <p class="result-disclaimer">仅作趣味参考，不代表人生定论</p>
+    </div>
+
+    <div class="quote-box">
+      <div class="quote-label">送给你的一句话</div>
+      <div class="quote-text serif" id="r-quote"></div>
+    </div>
+
+    <div class="section-card">
+      <div class="section-title">01 · 你的剧本底色</div>
+      <div class="section-desc" id="r-desc"></div>
+    </div>
+
+    <div class="section-card">
+      <div class="section-title">02 · 六维倾向</div>
+      <div class="section-desc" style="margin-bottom:16px">只表示本次选择的侧重，不是能力高低</div>
+      <div id="r-dims"></div>
+    </div>
+
+    <div class="section-card">
+      <div class="section-title">03 · 从你的选择里看见</div>
+      <div class="highlight-grid" id="r-highlights"></div>
+    </div>
+
+    <div class="section-card">
+      <div class="section-title">04 · 给你的三句话</div>
+      <div class="section-desc" id="r-advice"></div>
+    </div>
+
+    <div class="action-row">
+      <button class="btn-secondary" onclick="location.reload()">重新测试</button>
+      <button class="btn-primary" onclick="saveResult()">保存到相册</button>
+    </div>
+
+    <div class="footer-note">
+      本测试用于趣味自我探索，<br>不构成人生规划或心理诊断建议。
+    </div>
+  </div>
+
+</div>
+
+<script>
+// ===== 数据 =====
+const DIMS = ['决断', '共情', '开创', '洞察', '经营', '独立'];
+
+// 8种剧本类型
+const SCRIPTS = {
+  comeback: {
+    name: '逆风翻盘型',
+    icon: '🌱',
+    tagline: '在低谷里长出翅膀的人',
+    percent: 87,
+    tags: ['越挫越勇', '韧性极强', '后发制人'],
+    quote: '你可以跌倒很多次，但每一次站起来，都比上次更清楚自己要去哪。',
+    desc: '你的人生主旋律是"反弹"。别人眼里的困境，在你这里往往是转折的起点。你不是那种一直顺风顺水的人，但你有一种特殊的能力——把烂牌打好。你在压力下反而更清醒，在低谷里反而更清楚自己要什么。这种剧本的力量在于：你吃过的苦，最后都会变成你的护城河。',
+    dims: { 决断: 75, 共情: 55, 开创: 70, 洞察: 80, 经营: 60, 独立: 85 },
+    highlights: [
+      { topic: '面对挫折 · 越挫越勇', text: '你选择"再试一次"，体现了你不轻易认输的韧性。' },
+      { topic: '做选择 · 洞察优先', text: '你更愿意先看清楚再动，说明你不是莽撞的人。' },
+      { topic: '与人合作 · 独立判断', text: '你习惯自己拿主意，说明你有很强的自我主张。' }
+    ],
+    advice: '你可以跌倒，也可以慢慢爬起来。不必逼自己立刻翻盘，有时候停一停，反而看得更清楚。你的剧本不需要一帆风顺，因为你本身就是风浪里长大的人。'
+  },
+  deep: {
+    name: '慢热深耕型',
+    icon: '🌳',
+    tagline: '把根扎深，等时间开花',
+    percent: 82,
+    tags: ['长期主义', '厚积薄发', '沉稳可靠'],
+    quote: '你不必和别人比速度，你只是在给自己的人生打地基。',
+    desc: '你的人生主旋律是"深耕"。你不追求短期爆发，更相信时间的力量。你做事情喜欢先想清楚、做扎实，然后一步一个脚印地往前走。别人可能觉得你慢，但你知道，真正重要的东西都需要时间。你的剧本不是短跑，是马拉松——而你恰恰是那种能跑完全程的人。',
+    dims: { 决断: 60, 共情: 70, 开创: 50, 洞察: 85, 经营: 90, 独立: 65 },
+    highlights: [
+      { topic: '做事情 · 稳扎稳打', text: '你选择"先准备好再开始"，体现了你追求稳妥的风格。' },
+      { topic: '人际关系 · 真诚深入', text: '你更看重深度而不是广度，说明你对待关系很认真。' },
+      { topic: '面对变化 · 先观察再动', text: '你不急着反应，说明你习惯用思考代替冲动。' }
+    ],
+    advice: '你的节奏没有问题。不必因为别人走得快就焦虑，你种下的树，终会长成别人遮风挡雨的地方。给自己多一点耐心，也给时间多一点时间。'
+  },
+  explorer: {
+    name: '横向探索型',
+    icon: '🗺️',
+    tagline: '人生是旷野，不是轨道',
+    percent: 85,
+    tags: ['体验至上', '多线并行', '好奇心强'],
+    quote: '你不必只选一条路，因为你的人生本身就是一片旷野。',
+    desc: '你的人生主旋律是"探索"。你对世界充满好奇，不愿意只过一种生活。你喜欢尝试新东西，喜欢多线并行，喜欢在不同的领域里找到灵感。别人可能觉得你不够专注，但你知道，丰富的体验本身就是意义。你的剧本不是一条直线，是一张地图——上面有很多条路，而你每条都想走走看。',
+    dims: { 决断: 65, 共情: 60, 开创: 90, 洞察: 70, 经营: 50, 独立: 75 },
+    highlights: [
+      { topic: '面对新机会 · 跃跃欲试', text: '你选择"先试试再说"，体现了你旺盛的好奇心。' },
+      { topic: '做选择 · 不设边界', text: '你不愿意被一种选择困住，说明你重视可能性。' },
+      { topic: '生活节奏 · 喜欢变化', text: '你不喜欢一成不变，说明你的生命力在探索里。' }
+    ],
+    advice: '你的广度是你的天赋，只是偶尔也需要往深处走一走。不必在"广度"和"深度"之间二选一——你可以先探索，再选一个最让你心动的方向深耕。你的剧本不怕长，就怕不够精彩。'
+  },
+  pioneer: {
+    name: '定局开路型',
+    icon: '⚔️',
+    tagline: '第一个蹚出路的人',
+    percent: 88,
+    tags: ['开创者', '制定规则', '主导力强'],
+    quote: '你不必跟着别人的路走，因为你自己就是修路的人。',
+    desc: '你的人生主旋律是"开路"。你不喜欢跟着别人的节奏走，更愿意自己制定规则。你有很强的主导力，遇到问题第一反应是"我来定方案"。别人可能觉得你强势，但你知道，有些路必须有人先走，而你天生就是那个愿意先蹚水的人。你的剧本不是跟着剧情走，是你在写剧情。',
+    dims: { 决断: 90, 共情: 45, 开创: 85, 洞察: 65, 经营: 70, 独立: 80 },
+    highlights: [
+      { topic: '做决定 · 果断干脆', text: '你选择"立刻定下来"，体现了你很强的决断力。' },
+      { topic: '面对难题 · 主动破局', text: '你不等别人来解决，说明你习惯掌控局面。' },
+      { topic: '与人合作 · 主导方向', text: '你更愿意自己拿主意，说明你有领导者的气质。' }
+    ],
+    advice: '你的开路能力是你的天赋，只是偶尔也可以停下来听听别人的声音。你的剧本需要主角，但也需要同行者。你不必一个人扛下所有，学会信任别人，你的路会走得更宽。'
+  },
+  guardian: {
+    name: '守护传承型',
+    icon: '🏮',
+    tagline: '把光传给下一个人的人',
+    percent: 80,
+    tags: ['守护者', '重视关系', '温暖可靠'],
+    quote: '你照顾了那么多人，也别忘了把温柔留给自己。',
+    desc: '你的人生主旋律是"守护"。你很重视身边的人，愿意为你在乎的人付出。你不一定是最耀眼的那个，但你是那个在背后托住大家的人。别人可能觉得你牺牲太多，但你知道，看到你在乎的人好好的，就是你最大的满足。你的剧本不是一个人的英雄故事，是一群人的温暖日常。',
+    dims: { 决断: 55, 共情: 95, 开创: 45, 洞察: 60, 经营: 75, 独立: 40 },
+    highlights: [
+      { topic: '人际关系 · 优先考虑别人', text: '你选择"先顾及大家"，体现了你很强的共情能力。' },
+      { topic: '面对选择 · 看重关系', text: '你会因为别人而改变决定，说明你很在乎身边的人。' },
+      { topic: '做事情 · 稳妥可靠', text: '你不喜欢冒险，说明你愿意为结果负责。' }
+    ],
+    advice: '你的温柔是这个世界需要的东西，但也请你记得照顾自己。你可以对别人好，也可以允许别人对你好。你的剧本不需要一直燃烧自己，你也有资格被照亮。'
+  },
+  wanderer: {
+    name: '自由流浪型',
+    icon: '🦋',
+    tagline: '不被定义，就是你的定义',
+    percent: 83,
+    tags: ['不设限', '随心而行', '拒绝标签'],
+    quote: '你不必活成别人期待的样子，因为你的剧本本来就没有大纲。',
+    desc: '你的人生主旋律是"自由"。你最受不了的就是被框住、被定义、被安排。你跟着自己的心走，不喜欢按别人的节奏生活。别人可能觉得你不靠谱，但你知道，比起活成别人满意的样子，你更想活成自己舒服的样子。你的剧本没有固定路线，因为风往哪吹，你就往哪走。',
+    dims: { 决断: 50, 共情: 55, 开创: 80, 洞察: 60, 经营: 35, 独立: 95 },
+    highlights: [
+      { topic: '面对规则 · 想要突破', text: '你选择"按自己的方式来"，体现了你对自由的追求。' },
+      { topic: '做选择 · 跟着感觉走', text: '你不太爱做计划，说明你更享受当下。' },
+      { topic: '人际关系 · 保持距离', text: '你需要自己的空间，说明你很重视独立。' }
+    ],
+    advice: '你的自由是你的礼物，只是偶尔也需要给自己搭个框架。不必为了自由而自由，你可以在自由里找到一件真正热爱的事。你的剧本不怕漂泊，就怕忘了自己想去哪。'
+  },
+  phoenix: {
+    name: '破局重构型',
+    icon: '🔥',
+    tagline: '打碎旧的，才能长出新的',
+    percent: 86,
+    tags: ['涅槃重生', '敢于推翻', '重建能力强'],
+    quote: '你可以推倒重来，因为你知道废墟之上，才会长出真正想要的东西。',
+    desc: '你的人生主旋律是"重构"。你有一种特殊的能力——在觉得不对的时候，敢于把现有的一切推倒重来。别人可能觉得你折腾，但你知道，与其在不对的路上坚持，不如换一条路重新开始。你的剧本不是一帆风顺的，是那种打碎了再拼起来、最后拼出一个更好版本的故事。',
+    dims: { 决断: 80, 共情: 50, 开创: 95, 洞察: 75, 经营: 55, 独立: 85 },
+    highlights: [
+      { topic: '面对瓶颈 · 敢于换路', text: '你选择"干脆换个方向"，体现了你破局的勇气。' },
+      { topic: '做事情 · 不拘一格', text: '你不喜欢按老方法来，说明你有重构的能力。' },
+      { topic: '面对变化 · 拥抱改变', text: '你不怕推翻重来，说明你很有弹性。' }
+    ],
+    advice: '你的重构能力是你的超能力，只是偶尔也需要在一个地方多待一会儿。推倒重来需要勇气，但坚持下去也需要。你的剧本不怕打碎，只是别忘了，打碎之后要知道自己想拼出什么。'
+  },
+  quiet: {
+    name: '内敛发光型',
+    icon: '🌙',
+    tagline: '安静地，也能照亮很远',
+    percent: 81,
+    tags: ['内在力量', '低调深耕', '安静有光'],
+    quote: '你不必大声说话，因为你的光，本来就不需要靠声音来证明。',
+    desc: '你的人生主旋律是"内敛的力量"。你不是那种在人群里最显眼的人，但你有一种安静的力量。你不喜欢张扬，更愿意默默把事情做好。别人可能低估了你，但时间会证明，你这种安静的坚持，往往比喧嚣更有力量。你的剧本不是主角在台上的高光时刻，是那种安静但持久、慢慢发光的故事。',
+    dims: { 决断: 60, 共情: 80, 开创: 50, 洞察: 90, 经营: 80, 独立: 70 },
+    highlights: [
+      { topic: '做事情 · 默默深耕', text: '你选择"先做好自己的事"，体现了你踏实的风格。' },
+      { topic: '人际关系 · 安静但真诚', text: '你不喜欢社交应酬，但你对朋友很真心。' },
+      { topic: '面对机会 · 不抢不争', text: '你不主动争取，但该你的你也不会让。' }
+    ],
+    advice: '你的安静是你的力量，只是偶尔也可以让别人看见你。不必逼自己变成外向的人，但要知道，你的好值得被人看见。你的剧本不需要舞台，因为你自己就是光。'
+  }
+};
+
+// 题目库 - 18道题，覆盖6个主题
+const QUESTIONS = [
+  // 主题1：面对挫折
+  {
+    topic: '面对挫折',
+    text: '一件你准备了很久的事情，最后搞砸了。你会怎么做？',
+    options: [
+      { text: '冷静复盘，看看哪里可以改进', dim: '洞察', style: 'observe' },
+      { text: '先消化一下情绪，再想办法', dim: '共情', style: 'feel' },
+      { text: '立刻换个方向再来一次', dim: '开创', style: 'restart' },
+      { text: '先放一放，过段时间再说', dim: '独立', style: 'pause' }
+    ]
+  },
+  {
+    topic: '面对挫折',
+    text: '别人都觉得你这次肯定不行了。你心里怎么想？',
+    options: [
+      { text: '偏要证明给他们看', dim: '决断', style: 'prove' },
+      { text: '我行不行我自己知道', dim: '独立', style: 'self' },
+      { text: '听听他们说的有没有道理', dim: '洞察', style: 'listen' },
+      { text: '无所谓，我知道自己要什么', dim: '独立', style: 'ignore' }
+    ]
+  },
+  // 主题2：做选择
+  {
+    topic: '做选择',
+    text: '你面前有两条路，一条稳妥但普通，一条冒险但精彩。你选哪个？',
+    options: [
+      { text: '稳妥的，稳扎稳打比较好', dim: '经营', style: 'safe' },
+      { text: '冒险的，人生就要精彩', dim: '开创', style: 'risk' },
+      { text: '先看看两条路分别能走多远', dim: '洞察', style: 'research' },
+      { text: '随便吧，走到哪算哪', dim: '独立', style: 'flow' }
+    ]
+  },
+  {
+    topic: '做选择',
+    text: '做决定之前，你通常会？',
+    options: [
+      { text: '问很多人的意见', dim: '共情', style: 'ask' },
+      { text: '自己想清楚就定', dim: '决断', style: 'self' },
+      { text: '先收集足够多的信息', dim: '洞察', style: 'info' },
+      { text: '凭直觉，第一感觉就是答案', dim: '开创', style: 'intuition' }
+    ]
+  },
+  // 主题3：人际关系
+  {
+    topic: '人际关系',
+    text: '朋友遇到困难来找你倾诉，你会？',
+    options: [
+      { text: '先陪他聊，情绪最重要', dim: '共情', style: 'listen' },
+      { text: '直接帮他想解决方案', dim: '决断', style: 'solve' },
+      { text: '分析一下问题出在哪', dim: '洞察', style: 'analyze' },
+      { text: '叫他出来散散心，转移注意力', dim: '开创', style: 'distract' }
+    ]
+  },
+  {
+    topic: '人际关系',
+    text: '你更看重什么样的关系？',
+    options: [
+      { text: '认识很多人，路子广', dim: '经营', style: 'broad' },
+      { text: '几个真心的，就够了', dim: '共情', style: 'deep' },
+      { text: '互相能帮上忙的', dim: '经营', style: 'useful' },
+      { text: '能一起玩一起疯的', dim: '开创', style: 'fun' }
+    ]
+  },
+  // 主题4：工作/做事风格
+  {
+    topic: '做事风格',
+    text: '你接手一个新任务，通常第一步是？',
+    options: [
+      { text: '先列个详细计划', dim: '经营', style: 'plan' },
+      { text: '先做起来，边做边调', dim: '开创', style: 'start' },
+      { text: '先研究一下别人怎么做的', dim: '洞察', style: 'study' },
+      { text: '先看看有没有志同道合的人', dim: '共情', style: 'team' }
+    ]
+  },
+  {
+    topic: '做事风格',
+    text: '你更接受哪种工作节奏？',
+    options: [
+      { text: '按部就班，稳定输出', dim: '经营', style: 'steady' },
+      { text: '一阵一阵的，有灵感就爆发', dim: '开创', style: 'burst' },
+      { text: '自己安排，想怎么做就怎么做', dim: '独立', style: 'free' },
+      { text: '跟着团队节奏走', dim: '共情', style: 'team' }
+    ]
+  },
+  // 主题5：面对变化
+  {
+    topic: '面对变化',
+    text: '生活突然发生了很大的变化，你第一反应是？',
+    options: [
+      { text: '紧张，想尽快回到正轨', dim: '经营', style: 'control' },
+      { text: '兴奋，说不定有新机会', dim: '开创', style: 'excited' },
+      { text: '先观察看看再说', dim: '洞察', style: 'observe' },
+      { text: '无所谓，怎么过都行', dim: '独立', style: 'chill' }
+    ]
+  },
+  {
+    topic: '面对变化',
+    text: '你会主动改变自己已经习惯的生活吗？',
+    options: [
+      { text: '不太会，习惯了就好', dim: '经营', style: 'habit' },
+      { text: '会啊，太久不变就闷了', dim: '开创', style: 'change' },
+      { text: '觉得有必要才会改', dim: '洞察', style: 'necessary' },
+      { text: '看心情，想改就改', dim: '独立', style: 'mood' }
+    ]
+  },
+  // 主题6：成功/成就
+  {
+    topic: '关于成就',
+    text: '你觉得什么样才算成功？',
+    options: [
+      { text: '被很多人认可和尊重', dim: '经营', style: 'recognize' },
+      { text: '做了自己真正想做的事', dim: '独立', style: 'self' },
+      { text: '帮到了很多人', dim: '共情', style: 'help' },
+      { text: '不断有新的体验和挑战', dim: '开创', style: 'experience' }
+    ]
+  },
+  {
+    topic: '关于成就',
+    text: '如果做成了一件大事，你会？',
+    options: [
+      { text: '好好庆祝一下，分享给大家', dim: '共情', style: 'share' },
+      { text: '默默开心，然后准备下一个目标', dim: '决断', style: 'next' },
+      { text: '想想还有什么可以改进的', dim: '洞察', style: 'improve' },
+      { text: '终于可以休息一下了', dim: '独立', style: 'rest' }
+    ]
+  },
+  // 主题7：压力与应对
+  {
+    topic: '压力应对',
+    text: '压力很大的时候，你会？',
+    options: [
+      { text: '把事情一件一件做完就好了', dim: '经营', style: 'solve' },
+      { text: '先出去走走，换换心情', dim: '开创', style: 'break' },
+      { text: '找朋友聊聊，说出来就好', dim: '共情', style: 'talk' },
+      { text: '自己消化，慢慢就过去了', dim: '独立', style: 'alone' }
+    ]
+  },
+  {
+    topic: '压力应对',
+    text: '你觉得压力主要来自哪里？',
+    options: [
+      { text: '怕做不好，怕让别人失望', dim: '共情', style: 'others' },
+      { text: '怕自己不够好', dim: '独立', style: 'self' },
+      { text: '事情太多，理不清', dim: '经营', style: 'mess' },
+      { text: '没什么压力，随遇而安', dim: '独立', style: 'chill' }
+    ]
+  },
+  // 主题8：未来想象
+  {
+    topic: '未来想象',
+    text: '你理想中的十年后生活是？',
+    options: [
+      { text: '稳定安逸，家庭美满', dim: '经营', style: 'stable' },
+      { text: '还在不断尝试新东西', dim: '开创', style: 'new' },
+      { text: '做着自己真正热爱的事', dim: '独立', style: 'love' },
+      { text: '有能力帮到更多的人', dim: '共情', style: 'help' }
+    ]
+  },
+  {
+    topic: '未来想象',
+    text: '你更担心什么？',
+    options: [
+      { text: '以后后悔没试过', dim: '开创', style: 'regret' },
+      { text: '以后过得不稳', dim: '经营', style: 'unstable' },
+      { text: '以后和在乎的人走散了', dim: '共情', style: 'lose' },
+      { text: '以后活成了自己不喜欢的样子', dim: '独立', style: 'notself' }
+    ]
+  },
+  // 主题9：面对规则
+  {
+    topic: '面对规则',
+    text: '你觉得规则是用来？',
+    options: [
+      { text: '遵守的，没有规矩不成方圆', dim: '经营', style: 'follow' },
+      { text: '参考的，合适就遵守', dim: '洞察', style: 'reference' },
+      { text: '打破的，规则是人定的', dim: '开创', style: 'break' },
+      { text: '无所谓，不影响我就行', dim: '独立', style: 'ignore' }
+    ]
+  },
+  {
+    topic: '面对规则',
+    text: '如果一件事大家都这么做，但你觉得不对，你会？',
+    options: [
+      { text: '还是跟着大家走比较稳妥', dim: '经营', style: 'follow' },
+      { text: '说出自己的想法', dim: '共情', style: 'speak' },
+      { text: '自己按自己的方式来', dim: '独立', style: 'own' },
+      { text: '先研究一下为什么大家都这么做', dim: '洞察', style: 'research' }
+    ]
+  }
+];
+
+// ===== 状态 =====
+const state = {
+  current: 0,
+  answers: [],
+  selected: -1
+};
+
+// ===== 自动删除平台水印 =====
+function removeWatermark() {
+    const wm = document.querySelector('[data-custom-element="doubao-watermark"]');
+    if (wm) wm.remove();
+}
+// 立即删除一次
+removeWatermark();
+// 用MutationObserver监听DOM变化，水印一出现就删
+const observer = new MutationObserver(removeWatermark);
+observer.observe(document.body, { childList: true, subtree: true });
+
+// ===== 配置 =====
+const ACCESS_CODE = '9900'; // 修改这里设置密码
+
+// ===== 视图切换 =====
+function showView(name) {
+  document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+  document.getElementById('view-' + name).classList.add('active');
+}
+
+// ===== 解锁 =====
+function unlock() {
+  const input = document.getElementById('accessInput');
+  const code = input.value.trim();
+  if (code === ACCESS_CODE) {
+    showView('home');
+  } else {
+    input.style.borderColor = '#ef4444';
+    input.value = '';
+    input.placeholder = '密码错误，请重试';
+    setTimeout(() => {
+      input.style.borderColor = 'var(--border)';
+      input.placeholder = '请输入密码';
+    }, 1500);
+  }
+}
+
+// ===== 开始测试 =====
+function startTest() {
+  state.current = 0;
+  state.answers = [];
+  showView('quiz');
+  renderQuestion();
+}
+
+// ===== 展示剧本列表 =====
+function showScripts() {
+  const listEl = document.getElementById('scripts-list');
+  listEl.innerHTML = '';
+  Object.values(SCRIPTS).forEach(s => {
+    const div = document.createElement('div');
+    div.className = 'script-item';
+    div.innerHTML = `
+      <div class="icon">${s.icon}</div>
+      <div class="info">
+        <div class="name">${s.name}</div>
+        <div class="tagline">${s.tagline}</div>
+      </div>
+    `;
+    listEl.appendChild(div);
+  });
+  showView('scripts');
+  window.scrollTo(0, 0);
+}
+
+// ===== 渲染题目 =====
+function renderQuestion() {
+  const q = QUESTIONS[state.current];
+  const total = QUESTIONS.length;
+  const num = state.current + 1;
+  const percent = Math.round((state.current / total) * 100);
+
+  document.getElementById('q-topic').textContent = q.topic;
+  document.getElementById('q-topic-label').textContent = q.topic;
+  document.getElementById('q-num').textContent = num;
+  document.getElementById('q-total').textContent = total;
+  document.getElementById('q-percent').textContent = percent + '%';
+  document.getElementById('q-progress').style.width = percent + '%';
+  document.getElementById('q-text').textContent = q.text;
+
+  // 渲染选项
+  const optionsEl = document.getElementById('q-options');
+  optionsEl.innerHTML = '';
+  const letters = ['A', 'B', 'C', 'D'];
+  q.options.forEach((opt, i) => {
+    const btn = document.createElement('button');
+    btn.className = 'option-btn';
+    btn.innerHTML = `<span class="option-letter">${letters[i]}</span><span>${opt.text}</span>`;
+    btn.onclick = () => selectOption(i);
+    optionsEl.appendChild(btn);
+  });
+
+  // 更新导航按钮
+  document.getElementById('btn-prev').disabled = state.current === 0;
+  document.getElementById('btn-next').disabled = true;
+  document.getElementById('nav-hint').textContent = '选择后自动进入下一题';
+}
+
+// ===== 选择选项 =====
+function selectOption(index) {
+  state.selected = index;
+  state.answers[state.current] = index;
+
+  // 更新选中态
+  document.querySelectorAll('.option-btn').forEach((btn, i) => {
+    btn.classList.toggle('selected', i === index);
+  });
+
+  document.getElementById('btn-next').disabled = false;
+  document.getElementById('nav-hint').textContent = '已选择，正在进入下一题...';
+
+  // 自动跳转
+  setTimeout(() => {
+    if (state.current < QUESTIONS.length - 1) {
+      state.current++;
+      renderQuestion();
+    } else {
+      showResult();
+    }
+  }, 600);
+}
+
+// ===== 上一题/下一题 =====
+function prevQuestion() {
+  if (state.current > 0) {
+    state.current--;
+    renderQuestion();
+  }
+}
+
+function nextQuestion() {
+  if (state.selected >= 0) {
+    if (state.current < QUESTIONS.length - 1) {
+      state.current++;
+      renderQuestion();
+    } else {
+      showResult();
+    }
+  }
+}
+
+// ===== 计算结果 =====
+function calcResult() {
+  // 统计各维度得分
+  const dimScores = {};
+  DIMS.forEach(d => dimScores[d] = 0);
+
+  state.answers.forEach((ansIdx, qIdx) => {
+    const opt = QUESTIONS[qIdx].options[ansIdx];
+    dimScores[opt.dim]++;
+  });
+
+  // 找出得分最高的几个维度，匹配剧本类型
+  // 简单匹配：根据维度组合判断剧本
+  const sortedDims = Object.entries(dimScores).sort((a, b) => b[1] - a[1]);
+
+  // 匹配逻辑
+  let scriptKey = 'quiet'; // 默认
+
+  const topDims = sortedDims.slice(0, 3).map(d => d[0]);
+
+  if (topDims.includes('独立') && topDims.includes('开创') && !topDims.includes('经营')) {
+    scriptKey = 'wanderer';
+  } else if (topDims.includes('开创') && topDims.includes('决断')) {
+    scriptKey = 'pioneer';
+  } else if (topDims.includes('共情') && topDims.includes('经营')) {
+    scriptKey = 'guardian';
+  } else if (topDims.includes('洞察') && topDims.includes('经营')) {
+    scriptKey = 'deep';
+  } else if (topDims.includes('开创') && topDims.includes('洞察')) {
+    scriptKey = 'phoenix';
+  } else if (topDims.includes('独立') && topDims.includes('决断')) {
+    scriptKey = 'comeback';
+  } else if (topDims.includes('开创')) {
+    scriptKey = 'explorer';
+  } else {
+    scriptKey = 'quiet';
+  }
+
+  return { scriptKey, dimScores };
+}
+
+// ===== 展示结果 =====
+function showResult() {
+  const { scriptKey, dimScores } = calcResult();
+  const script = SCRIPTS[scriptKey];
+
+  showView('result');
+
+  document.getElementById('r-icon').textContent = script.icon;
+  document.getElementById('r-percent').textContent = script.percent + '%';
+  document.getElementById('r-name').textContent = script.name;
+  document.getElementById('r-tagline').textContent = script.tagline;
+  document.getElementById('r-quote').textContent = script.quote;
+  document.getElementById('r-desc').textContent = script.desc;
+  document.getElementById('r-advice').textContent = script.advice;
+
+  // 标签
+  const tagsEl = document.getElementById('r-tags');
+  tagsEl.innerHTML = '';
+  script.tags.forEach(t => {
+    const span = document.createElement('span');
+    span.className = 'result-tag';
+    span.textContent = t;
+    tagsEl.appendChild(span);
+  });
+
+  // 六维进度条
+  const dimsEl = document.getElementById('r-dims');
+  dimsEl.innerHTML = '';
+  DIMS.forEach(dim => {
+    const val = script.dims[dim];
+    const row = document.createElement('div');
+    row.className = 'dim-row';
+    row.innerHTML = `
+      <span class="dim-name">${dim}</span>
+      <div class="dim-bar-bg"><div class="dim-bar-fill" style="width:${val}%"></div></div>
+      <span class="dim-value">${val >= 80 ? '很强' : val >= 60 ? '较强' : '一般'}</span>
+    `;
+    dimsEl.appendChild(row);
+  });
+
+  // 亮点
+  const highlightsEl = document.getElementById('r-highlights');
+  highlightsEl.innerHTML = '';
+  script.highlights.forEach(h => {
+    const div = document.createElement('div');
+    div.className = 'highlight-item';
+    div.innerHTML = `<div class="topic">${h.topic}</div><div class="text">${h.text}</div>`;
+    highlightsEl.appendChild(div);
+  });
+
+  // 滚动到顶部
+  window.scrollTo(0, 0);
+}
+
+// ===== 保存结果 =====
+function saveResult() {
+  showToast('请截图保存到相册');
+}
+
+// ===== Toast 提示 =====
+function showToast(msg) {
+  // 简单提示
+  alert(msg);
+}
+</script>
+
+</body>
+</html>
